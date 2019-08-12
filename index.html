@@ -25,6 +25,13 @@
   <link href="css/style-green.css" rel="stylesheet">
 </head>
 
+<script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.3.2/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("user_mBbRDabTB8hG3F2EXSe70");
+   })();
+</script>
+
 <body id="page-top">
 
   <!--/ Nav Star /-->
@@ -419,7 +426,7 @@
                       Send Tuan A Message
                     </h5>
                   </div>
-                  <div>
+                  <!-- <div>
                       <form action="" method="post" role="form" class="contactForm">
                       <div id="sendmessage">Your message has been sent. Thank you!</div>
                       <div id="errormessage"></div>
@@ -453,6 +460,27 @@
                         </div>
                       </div>
                     </form>
+                  </div> -->
+                  <div>
+                      <form id="jquery_form">
+                          <div id="sendmessage">Your message has been sent. Thank you!</div>
+                          <div id="errormessage">Your message was not sent, please try again or contact me using my contact info on the right</div>
+                          <div class="col-md-12 mb-3">
+                              <div class="form-group">
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject and Email" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                                <div class="validation"></div>
+                              </div>
+                          </div>
+                          <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                              <textarea class="form-control" name="text" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                              <div class="validation"></div>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <button type="submit" name="send" value="Send"class="button button-a button-big button-rouded">Send Message</button>
+                          </div>
+                      </form>
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -508,5 +536,52 @@
   <!-- Template Main Javascript File -->
   <script src="js/main.js"></script>
 
+  <script>
+      //update this with your $form selector
+      var form_id = "jquery_form";
+  
+      var data = {
+          "access_token": "4xteod2svrkuzu4sd7e2x2zs"
+      };
+  
+      function onSuccess() {
+          // remove this to avoid redirect
+          $("#sendmessage").addClass("show");
+          $("#errormessage").removeClass("show");
+          $('.jquery_form').find("input, textarea").val("");
+      }
+  
+      function onError(error) {
+          // remove this to avoid redirect
+          $("#sendmessage").removeClass("show");
+          $("#errormessage").addClass("show");
+      }
+  
+      var sendButton = $("#" + form_id + " [name='send']");
+  
+      function send() {
+          sendButton.val('Sending…');
+          sendButton.prop('disabled',true);
+  
+          var subject = $("#" + form_id + " [name='subject']").val();
+          var message = $("#" + form_id + " [name='text']").val();
+          data['subject'] = subject;
+          data['text'] = message;
+  
+          $.post('https://postmail.invotes.com/send',
+              data,
+              onSuccess
+          ).fail(onError);
+  
+          return false;
+      }
+  
+      sendButton.on('click', send);
+  
+      var $form = $("#" + form_id);
+      $form.submit(function( event ) {
+          event.preventDefault();
+      });
+  </script>
 </body>
 </html>

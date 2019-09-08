@@ -5,4 +5,4 @@ a portfolio page. Feel free to click on the link below to take a look
 
 https://tuanphandeveloper.github.io/
 
-[Resume](../master/TuanPhanResume.pdf)
+[Resume](../master/TuanPhanResumeGitHubViewFriendly.pdf)
